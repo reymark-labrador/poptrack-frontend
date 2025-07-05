@@ -1,7 +1,10 @@
 import React from "react"
 
-const Loading: React.FC = () => (
-  <div className="flex flex-col items-center justify-center h-screen">
+interface LoadingProps {
+  label?: string
+}
+const Loading: React.FC<LoadingProps> = ({ label = "Loading..." }) => (
+  <div className="flex flex-col items-center justify-center">
     <svg
       width="40"
       height="40"
@@ -25,7 +28,7 @@ const Loading: React.FC = () => (
         strokeLinecap="round"
       />
     </svg>
-    <span>Loading...</span>
+    <span className="text-gray-600">{label}</span>
   </div>
 )
 
