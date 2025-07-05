@@ -30,7 +30,6 @@ const AMENITIES_OPTIONS = [
 ]
 
 const BEDROOM_OPTIONS = [
-  { value: "any", label: "Any" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
   { value: "3", label: "3" },
@@ -39,7 +38,6 @@ const BEDROOM_OPTIONS = [
 ]
 
 const BATHROOM_OPTIONS = [
-  { value: "any", label: "Any" },
   { value: "1", label: "1" },
   { value: "2", label: "2" },
   { value: "3", label: "3" },
@@ -47,9 +45,8 @@ const BATHROOM_OPTIONS = [
 ]
 
 const PROPERTY_TYPE_OPTIONS = [
-  { value: "all", label: "All Types" },
-  { value: "sale", label: "For Sale" },
-  { value: "rent", label: "For Rent" },
+  { value: "sale", label: "Sale" },
+  { value: "rent", label: "Rent" },
 ]
 
 export const PropertyFilters = () => {
@@ -208,7 +205,7 @@ export const PropertyFilters = () => {
           {/* Property Type */}
           <div>
             <Select
-              value={filters.type || "all"}
+              value={filters.type || PROPERTY_TYPE_OPTIONS[0].value}
               onValueChange={handleTypeChange}
             >
               <SelectTrigger className="w-full">
@@ -230,7 +227,7 @@ export const PropertyFilters = () => {
           {/* Bedrooms */}
           <div>
             <Select
-              value={filters.bedrooms?.toString() || "any"}
+              value={filters.bedrooms?.toString()}
               onValueChange={handleBedroomsChange}
             >
               <SelectTrigger className="w-full">
@@ -252,7 +249,7 @@ export const PropertyFilters = () => {
           {/* Bathrooms */}
           <div>
             <Select
-              value={filters.bathrooms?.toString() || "any"}
+              value={filters.bathrooms?.toString()}
               onValueChange={handleBathroomsChange}
             >
               <SelectTrigger className="w-full">
