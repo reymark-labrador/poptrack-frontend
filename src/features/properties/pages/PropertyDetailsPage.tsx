@@ -7,6 +7,7 @@ import InquiryModal, { type InquiryFormData } from "@/components/InquiryModal"
 import { useProperty } from "../hooks"
 import { createLead } from "../api"
 import { useState } from "react"
+import Loading from "@/components/Loading"
 
 const PropertyDetailsPage = () => {
   const { propertyId } = useParams<{ propertyId: string }>()
@@ -38,8 +39,7 @@ const PropertyDetailsPage = () => {
     return (
       <div className="max-w-6xl mx-auto py-8 px-4">
         <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading property details...</p>
+          <Loading label="Loading property details..." />
         </div>
       </div>
     )

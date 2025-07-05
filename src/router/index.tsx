@@ -5,7 +5,17 @@ import Loading from "../components/Loading"
 
 const AppRoutes = () => {
   const element = useRoutes(routes)
-  return <Suspense fallback={<Loading />}>{element}</Suspense>
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center h-screen">
+          <Loading />
+        </div>
+      }
+    >
+      {element}
+    </Suspense>
+  )
 }
 
 export default AppRoutes
