@@ -13,6 +13,9 @@ const CreatePropertyPage = lazy(
 const EditPropertyPage = lazy(
   () => import("../features/dashboard/pages/EditPropertyPage")
 )
+const InquiriesPage = lazy(
+  () => import("../features/dashboard/pages/InquiriesPage")
+)
 
 export const routes: RouteObject[] = [
   ...propertiesRoutes,
@@ -23,6 +26,7 @@ export const routes: RouteObject[] = [
       { path: "properties", element: <PropertyListPage /> },
       { path: "properties/create", element: <CreatePropertyPage /> },
       { path: "properties/:id/edit", element: <EditPropertyPage /> },
+      { path: "inquiries", element: <InquiriesPage /> },
       // Add dashboard routes here
       { path: "*", element: <NotFound /> },
     ],

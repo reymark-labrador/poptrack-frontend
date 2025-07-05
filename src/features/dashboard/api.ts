@@ -1,5 +1,6 @@
 import axios from "@/services/axios"
 import type { PropertyFilters } from "@/stores/usePropertyUIStore"
+import type { ILead, LeadListResponse } from "@/types/lead"
 import type { IProperty, PropertyListResponse } from "@/types/property"
 
 export const getDashboardProperties = async (
@@ -65,5 +66,32 @@ export const archiveProperty = async (id: string): Promise<IProperty> => {
 
 export const unarchiveProperty = async (id: string): Promise<IProperty> => {
   const res = await axios.patch<IProperty>(`/properties/${id}/unarchive`)
+  return res.data
+}
+
+export const getInquiries = async (
+  page: number,
+  limit: number
+): Promise<LeadListResponse> => {
+  const params: Record<string, string | number | string[]> = {
+    page,
+    limit,
+  }
+
+  const res = await axios.get<LeadListResponse>("/leads", {
+    params,
+  })
+
+  return res.data
+}
+
+export const scheduleInquery = async (
+  leadId: string,
+  scheduledAt: Date
+): Promise<ILead> => {
+  const res = await axios.post<ILead>(`/leads/${leadId}/convert-and-schedule`, {
+    scheduledAt,
+  })
+
   return res.data
 }
