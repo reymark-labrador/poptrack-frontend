@@ -66,9 +66,9 @@ const PropertiesPage = () => {
       {!isLoading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties?.length ? (
-            properties?.map((property) => (
+            properties?.map((property, index) => (
               <Card
-                key={property._id}
+                key={index}
                 className="flex flex-col h-full transition-all duration-200 hover:shadow-lg"
               >
                 <Link to={`/property/${property._id}`} className="flex-1">
