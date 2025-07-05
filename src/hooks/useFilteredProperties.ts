@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import { useMemo } from "react"
-import { getFilteredProperties, getPropertyById } from "./api"
-import { usePropertyUIStore } from "./store"
+import {
+  getFilteredProperties,
+  getPropertyById,
+} from "../features/properties/api"
+import { usePropertyUIStore } from "../stores/usePropertyUIStore"
 
 export const useFilteredProperties = () => {
   const filters = usePropertyUIStore((state) => state.filters)

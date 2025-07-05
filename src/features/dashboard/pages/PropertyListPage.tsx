@@ -1,5 +1,5 @@
-import { useFilteredProperties } from "@/features/properties/hooks"
-import { usePropertyUIStore } from "@/features/properties/store"
+import { useFilteredProperties } from "@/hooks/useFilteredProperties"
+import { usePropertyUIStore } from "@/stores/usePropertyUIStore"
 
 import { PropertyPagination } from "@/components/PropertyPagination"
 import { Link, useSearchParams } from "react-router-dom"

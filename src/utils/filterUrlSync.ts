@@ -1,4 +1,4 @@
-import type { PropertyFilters } from "@/features/properties/store"
+import type { PropertyFilters } from "@/stores/usePropertyUIStore"
 
 export function filtersToUrlParams(filters: PropertyFilters, page: number) {
   const params: Record<string, string> = {}

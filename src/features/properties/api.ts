@@ -1,6 +1,6 @@
 import axios from "@/services/axios"
 import type { PropertyListResponse, IProperty } from "@/types/property"
-import type { PropertyFilters } from "./store"
+import type { PropertyFilters } from "../../stores/usePropertyUIStore"
 import type { CreateLeadPayload, LeadResponse } from "@/types/lead"
 
 export const getFilteredProperties = async (
@@ -28,12 +28,14 @@ export const getFilteredProperties = async (
   if (filters.amenities.length > 0)
     params.amenities = filters.amenities.join(",")
 
-  const res = await axios.get<PropertyListResponse>("/properties", { params })
+  const res = await axios.get<PropertyListResponse>("/frontend/properties", {
+    params,
+  })
   return res.data
 }
 
 export const getPropertyById = async (id: string): Promise<IProperty> => {
-  const res = await axios.get<IProperty>(`/properties/${id}`)
+  const res = await axios.get<IProperty>(`/frontend/properties/${id}`)
   return res.data
 }
 

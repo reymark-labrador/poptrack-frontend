@@ -13,8 +13,8 @@ import { PropertyFilters } from "@/components/PropertyFilters"
 import InquiryButton from "@/components/InquiryButton"
 import { useURLParams } from "@/utils/urlParams"
 
-import { useFilteredProperties } from "../hooks"
-import { usePropertyUIStore } from "../store"
+import { useFilteredProperties } from "../../../hooks/useFilteredProperties"
+import { usePropertyUIStore } from "../../../stores/usePropertyUIStore"
 
 const IMAGE_PLACEHOLDER =
   "https://placehold.co/600x400?text=No+Photo&font=roboto"

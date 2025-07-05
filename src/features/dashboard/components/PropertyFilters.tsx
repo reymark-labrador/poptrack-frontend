@@ -12,51 +12,21 @@ import {
   SelectLabel,
   SelectValue,
 } from "@/components/ui/Select"
-import { usePropertyUIStore } from "@/features/properties/store"
+import { usePropertyUIStore } from "@/stores/usePropertyUIStore"
 import { useSearchParams } from "react-router-dom"
 import { filtersToUrlParams, urlParamsToFilters } from "@/utils/filterUrlSync"
-
-const AMENITIES_OPTIONS = [
-  { value: "parking", label: "Parking" },
-  { value: "gym", label: "Gym" },
-  { value: "pool", label: "Pool" },
-  { value: "garden", label: "Garden" },
-  { value: "balcony", label: "Balcony" },
-  { value: "elevator", label: "Elevator" },
-  { value: "air-conditioning", label: "Air Conditioning" },
-  { value: "heating", label: "Heating" },
-  { value: "wifi", label: "WiFi" },
-  { value: "furnished", label: "Furnished" },
-]
-
-const BEDROOM_OPTIONS = [
-  { value: "any", label: "Any" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5+", label: "5+" },
-]
-
-const BATHROOM_OPTIONS = [
-  { value: "any", label: "Any" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4+", label: "4+" },
-]
-
-const PROPERTY_TYPE_OPTIONS = [
-  { value: "all", label: "All Types" },
-  { value: "sale", label: "Sale" },
-  { value: "rent", label: "Rent" },
-]
+import {
+  AMENITIES_OPTIONS,
+  BEDROOM_OPTIONS,
+  BATHROOM_OPTIONS,
+  PROPERTY_TYPE_OPTIONS,
+} from "@/constants/propertyOptions"
 
 export const PropertyFilters = () => {
   const {
     filters,
     setType,
-    setLocation,
+    setSearchTerm,
     setPriceRange,
     setBedrooms,
     setBathrooms,
@@ -72,7 +42,7 @@ export const PropertyFilters = () => {
   useEffect(() => {
     const { filters: urlFilters, page } = urlParamsToFilters(searchParams)
     setType(urlFilters.type)
-    setLocation(urlFilters.location)
+    setSearchTerm(urlFilters.searchTerm)
     setBedrooms(urlFilters.bedrooms)
     setBathrooms(urlFilters.bathrooms)
     setPriceRange(urlFilters.minPrice, urlFilters.maxPrice)
@@ -148,10 +118,10 @@ export const PropertyFilters = () => {
     updateAllUrlParams({ ...filters, type: typeValue }, 1)
   }
 
-  const handleLocationChange = (value: string) => {
-    setLocation(value)
+  const handleSearchTermChange = (value: string) => {
+    setSearchTerm(value)
     setPage(1)
-    updateAllUrlParams({ ...filters, location: value }, 1)
+    updateAllUrlParams({ ...filters, searchTerm: value }, 1)
   }
 
   const handleReset = () => {
@@ -161,7 +131,7 @@ export const PropertyFilters = () => {
       {
         type: null,
         city: "",
-        location: "",
+        searchTerm: "",
         minPrice: null,
         maxPrice: null,
         bedrooms: null,
@@ -198,9 +168,9 @@ export const PropertyFilters = () => {
           {/* Location */}
           <div>
             <Input
-              placeholder="Search by location..."
-              value={filters.location}
-              onChange={(e) => handleLocationChange(e.target.value)}
+              placeholder="Search by location or title..."
+              value={filters.searchTerm || ""}
+              onChange={(e) => handleSearchTermChange(e.target.value)}
               className="w-full"
             />
           </div>
@@ -252,7 +222,7 @@ export const PropertyFilters = () => {
           {/* Bathrooms */}
           <div>
             <Select
-              value={filters.bathrooms?.toString() || "any"}
+              value={filters.bathrooms?.toString()}
               onValueChange={handleBathroomsChange}
             >
               <SelectTrigger className="w-full">

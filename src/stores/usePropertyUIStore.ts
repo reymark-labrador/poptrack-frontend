@@ -7,7 +7,8 @@ export type PropertyType = "rent" | "sale" | null
 export interface PropertyFilters {
   type: PropertyType
   city: string
-  location: string
+  location?: string
+  searchTerm?: string
   minPrice: number | null
   maxPrice: number | null
   bedrooms: number | null
@@ -22,7 +23,8 @@ interface PropertyUIState {
 
   setType: (type: PropertyType) => void
   setCity: (city: string) => void
-  setLocation: (location: string) => void
+  setLocation: (location?: string) => void
+  setSearchTerm: (searchTerm?: string) => void
   setPriceRange: (min: number | null, max: number | null) => void
   setBedrooms: (value: number | null) => void
   setBathrooms: (value: number | null) => void
@@ -41,6 +43,7 @@ const defaultFilters: PropertyFilters = {
   type: null,
   city: "",
   location: "",
+  searchTerm: "",
   minPrice: null,
   maxPrice: null,
   bedrooms: null,
@@ -75,6 +78,11 @@ export const usePropertyUIStore = create<PropertyUIState & PaginationState>()(
         setLocation: (location) =>
           set((state) => {
             state.filters.location = location
+          }),
+
+        setSearchTerm: (searchTerm) =>
+          set((state) => {
+            state.filters.searchTerm = searchTerm
           }),
 
         setPriceRange: (min, max) =>
