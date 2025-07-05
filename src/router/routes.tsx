@@ -7,6 +7,12 @@ const NotFound = lazy(() => import("../pages/NotFound"))
 const PropertyListPage = lazy(
   () => import("../features/dashboard/pages/PropertyListPage")
 )
+const CreatePropertyPage = lazy(
+  () => import("../features/dashboard/pages/CreatePropertyPage")
+)
+const EditPropertyPage = lazy(
+  () => import("../features/dashboard/pages/EditPropertyPage")
+)
 
 export const routes: RouteObject[] = [
   ...propertiesRoutes,
@@ -15,6 +21,8 @@ export const routes: RouteObject[] = [
     element: <DashboardLayout />,
     children: [
       { path: "properties", element: <PropertyListPage /> },
+      { path: "properties/create", element: <CreatePropertyPage /> },
+      { path: "properties/:id/edit", element: <EditPropertyPage /> },
       // Add dashboard routes here
       { path: "*", element: <NotFound /> },
     ],

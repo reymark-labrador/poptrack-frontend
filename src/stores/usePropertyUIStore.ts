@@ -16,6 +16,7 @@ export interface PropertyFilters {
   minArea: number | null
   maxArea: number | null
   amenities: string[]
+  showArchived?: boolean
 }
 
 interface PropertyUIState {
@@ -30,6 +31,7 @@ interface PropertyUIState {
   setBathrooms: (value: number | null) => void
   setAreaRange: (min: number | null, max: number | null) => void
   setAmenities: (items: string[]) => void
+  setShowArchived: (show: boolean) => void
   resetFilters: () => void
 }
 
@@ -51,6 +53,7 @@ const defaultFilters: PropertyFilters = {
   minArea: null,
   maxArea: null,
   amenities: [],
+  showArchived: false,
 }
 
 export const usePropertyUIStore = create<PropertyUIState & PaginationState>()(
@@ -110,6 +113,11 @@ export const usePropertyUIStore = create<PropertyUIState & PaginationState>()(
         setAmenities: (items) =>
           set((state) => {
             state.filters.amenities = items
+          }),
+
+        setShowArchived: (show) =>
+          set((state) => {
+            state.filters.showArchived = show
           }),
 
         resetFilters: () =>

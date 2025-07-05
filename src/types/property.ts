@@ -15,6 +15,7 @@ export interface IProperty {
   area?: number
   images: string[]
   amenities: string[]
+  isArchived?: boolean
 }
 
 export interface PropertyListResponse {

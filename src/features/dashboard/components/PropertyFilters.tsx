@@ -22,6 +22,12 @@ import {
   PROPERTY_TYPE_OPTIONS,
 } from "@/constants/propertyOptions"
 
+// Extend PROPERTY_TYPE_OPTIONS with "All Types" option
+const EXTENDED_PROPERTY_TYPE_OPTIONS = [
+  { value: "all", label: "All Types" },
+  ...PROPERTY_TYPE_OPTIONS,
+]
+
 export const PropertyFilters = () => {
   const {
     filters,
@@ -178,7 +184,7 @@ export const PropertyFilters = () => {
           {/* Property Type */}
           <div>
             <Select
-              value={filters.type || PROPERTY_TYPE_OPTIONS[0].value}
+              value={filters.type || EXTENDED_PROPERTY_TYPE_OPTIONS[0].value}
               onValueChange={handleTypeChange}
             >
               <SelectTrigger className="w-full">
@@ -187,7 +193,7 @@ export const PropertyFilters = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Type</SelectLabel>
-                  {PROPERTY_TYPE_OPTIONS.map((option) => (
+                  {EXTENDED_PROPERTY_TYPE_OPTIONS.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
