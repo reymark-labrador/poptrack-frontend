@@ -52,13 +52,13 @@ A modern React-based property management and listing application built with Type
 
 ### Public Property Listing Page
 
-<img src="" height="350"/>
+<img src="images/property-listing.jpeg" height="350"/>
 
 _Main property browsing interface with advanced filters and search functionality_
 
 ### Property Details Page
 
-<img src="images/property-listing.jpeg" height="350"/>
+<img src="images/property-details.jpeg" height="350"/>
 
 _Detailed property view with image carousel, map integration, and inquiry form_
 
