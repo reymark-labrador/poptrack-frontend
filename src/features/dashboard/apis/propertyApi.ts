@@ -40,3 +40,30 @@ export const getDashboardProperties = async (
   })
   return res.data
 }
+
+export const getPropertyById = async (id: string): Promise<IProperty> => {
+  const res = await axios.get<IProperty>(`/properties/${id}`)
+  return res.data
+}
+
+export const updateProperty = async (
+  id: string,
+  propertyData: Omit<IProperty, "_id">
+): Promise<IProperty> => {
+  const res = await axios.put<IProperty>(`/properties/${id}`, propertyData)
+  return res.data
+}
+
+export const deleteProperty = async (id: string): Promise<void> => {
+  await axios.delete(`/properties/${id}`)
+}
+
+export const archiveProperty = async (id: string): Promise<IProperty> => {
+  const res = await axios.patch<IProperty>(`/properties/${id}/archive`)
+  return res.data
+}
+
+export const unarchiveProperty = async (id: string): Promise<IProperty> => {
+  const res = await axios.patch<IProperty>(`/properties/${id}/unarchive`)
+  return res.data
+}

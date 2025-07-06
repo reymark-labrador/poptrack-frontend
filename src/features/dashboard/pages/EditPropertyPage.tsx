@@ -11,8 +11,9 @@ import {
   SelectValue,
 } from "@/components/ui/Select"
 import { Checkbox } from "@/components/ui/Checkbox"
-import { getPropertyById, updateProperty } from "../api"
+
 import type { IProperty } from "@/types/property"
+import { getPropertyById, updateProperty } from "../apis/propertyApi"
 
 const EditPropertyPage = () => {
   const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/Button"
-import { deleteProperty } from "../api"
 import type { IProperty } from "@/types/property"
+import { deleteProperty } from "../apis/propertyApi"
 
 interface DeletePropertyModalProps {
   property: IProperty | null

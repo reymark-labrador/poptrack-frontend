@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/Button"
-import { archiveProperty, unarchiveProperty } from "../api"
 import type { IProperty } from "@/types/property"
+import { archiveProperty, unarchiveProperty } from "../apis/propertyApi"
 
 interface ArchivePropertyModalProps {
   property: IProperty | null
