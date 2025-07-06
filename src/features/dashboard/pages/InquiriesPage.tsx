@@ -106,8 +106,7 @@ const InquiriesPage = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Contact</TableHead>
+                <TableHead>Client</TableHead>
                 <TableHead>Property</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Message</TableHead>
@@ -122,18 +121,16 @@ const InquiriesPage = () => {
                     <TableCell>
                       <div>
                         <div className="font-medium">{inquiry.name}</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="text-sm text-gray-600">
-                          {inquiry.email}
-                        </div>
-                        {inquiry.phone && (
+                        <div className="space-y-1">
                           <div className="text-sm text-gray-600">
-                            {inquiry.phone}
+                            {inquiry.email}
                           </div>
-                        )}
+                          {inquiry.phone && (
+                            <div className="text-sm text-gray-600">
+                              {inquiry.phone}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>

@@ -33,7 +33,7 @@ export interface LeadListResponse {
 export interface LeadResponse {
   success: boolean
   message?: string
-  data: Lead
+  data: ILead
 }
 
 export interface UpdateLeadPayload {
