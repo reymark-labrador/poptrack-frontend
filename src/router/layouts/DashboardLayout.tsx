@@ -1,7 +1,6 @@
 import { Outlet, NavLink } from "react-router-dom"
 
 const navItems = [
-  { name: "Dashboard Home", to: "/dashboard" },
   { name: "Properties", to: "/dashboard/properties" },
   { name: "Inquiries", to: "/dashboard/inquiries" },
   { name: "Schedule", to: "/dashboard/schedule" },
