@@ -1,5 +1,8 @@
+import {
+  getInquiries,
+  scheduleInquery,
+} from "@/features/dashboard/apis/inquery"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { getInquiries, scheduleInquery } from "../features/dashboard/api"
 
 interface UseInquiriesOptions {
   page?: number
