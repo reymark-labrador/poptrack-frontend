@@ -20,10 +20,8 @@ export const getDashboardProperties = async (
   }
 
   if (filters.type) params.type = filters.type
-  if (filters.location) {
-    params.location = filters.location
-  } else if (filters.city) {
-    params.city = filters.city
+  if (filters.searchTerm) {
+    params.searchTerm = filters.searchTerm
   }
   if (filters.minPrice) params.minPrice = filters.minPrice
   if (filters.maxPrice) params.maxPrice = filters.maxPrice

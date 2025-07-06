@@ -11,7 +11,7 @@ export const useDashboardProperties = () => {
   const debouncedFilters = useMemo(() => {
     return {
       ...filters,
-      location: filters.searchTerm?.trim(),
+      searchTerm: filters.searchTerm?.trim(),
     }
   }, [filters])
 
