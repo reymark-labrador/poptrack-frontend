@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import { getDashboardProperties } from "../features/dashboard/api"
 import { usePropertyUIStore } from "@/stores/usePropertyUIStore"
 import { useMemo } from "react"
+import { getDashboardProperties } from "@/features/dashboard/apis/propertyApi"
 
 export const useDashboardProperties = () => {
   const filters = usePropertyUIStore((state) => state.filters)

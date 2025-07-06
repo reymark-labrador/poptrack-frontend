@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select"
 import { Checkbox } from "@/components/ui/Checkbox"
-import { createProperty } from "../api"
+import { createProperty } from "../apis/propertyApi"
 
 const CreatePropertyPage = () => {
   const navigate = useNavigate()
