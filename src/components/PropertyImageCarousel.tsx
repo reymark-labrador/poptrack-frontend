@@ -8,6 +8,9 @@ interface PropertyImageCarouselProps {
   className?: string
 }
 
+const IMAGE_PLACEHOLDER =
+  "https://placehold.co/600x400?text=No+Photo&font=roboto"
+
 const PropertyImageCarousel = ({
   images,
   title,
@@ -40,7 +43,7 @@ const PropertyImageCarousel = ({
       {/* Main Image */}
       <div className="relative overflow-hidden rounded-t-xl md:rounded-l-xl md:rounded-t-none h-full">
         <img
-          src={displayImages[currentIndex]}
+          src={IMAGE_PLACEHOLDER}
           alt={`${title} - Image ${currentIndex + 1}`}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
