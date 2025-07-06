@@ -3,6 +3,7 @@ import { ArrowLeft, Bed, Bath, Square, MapPin, Calendar } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { PropertyGallery } from "@/components/PropertyGallery"
+import PropertyMap from "@/components/PropertyMap"
 import InquiryModal, { type InquiryFormData } from "@/components/InquiryModal"
 import { useProperty } from "../../../hooks/useFilteredProperties"
 import { createLead } from "../api"
@@ -106,6 +107,44 @@ const PropertyDetailsPage = () => {
       {/* Gallery */}
       <div className="mb-8">
         <PropertyGallery images={property.images} title={property.title} />
+      </div>
+
+      {/* Map */}
+      <div className="mb-8">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="w-5 h-5" />
+              Location
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {property.location.latitude && property.location.longitude ? (
+              <PropertyMap
+                latitude={property.location.latitude}
+                longitude={property.location.longitude}
+                title={property.title}
+                address={property.location.address}
+                city={property.location.city}
+              />
+            ) : (
+              <div className="bg-gray-100 rounded-lg p-8 text-center">
+                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  Location Information
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {property.location.address &&
+                    `${property.location.address}, `}
+                  {property.location.city}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Map coordinates not available for this property
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Property Details Grid */}
