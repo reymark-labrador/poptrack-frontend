@@ -28,12 +28,12 @@ import {
 } from "@/components/ui/Select"
 
 import { Calendar } from "lucide-react"
-import { updateViewingStatus } from "../api"
 import { useViewingUIStore } from "@/stores/useViewingUIStore"
 import type { IViewing } from "@/types/viewing"
 import { formatDate, truncateMessage } from "@/utils/formatters"
 
 import { TablePagination } from "@/components/TablePagination"
+import { updateViewingStatus } from "../apis/viewApi"
 
 const ScheduleViewingPage = () => {
   const queryClient = useQueryClient()

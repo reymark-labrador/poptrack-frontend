@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import { getViewings } from "../features/dashboard/api"
 import { useViewingUIStore } from "@/stores/useViewingUIStore"
 import { useMemo } from "react"
+import { getViewings } from "@/features/dashboard/apis/viewApi"
 
 export const useViewings = () => {
   const filters = useViewingUIStore((state) => state.filters)
