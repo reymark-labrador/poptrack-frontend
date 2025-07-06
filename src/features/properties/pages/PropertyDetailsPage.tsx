@@ -119,10 +119,9 @@ const PropertyDetailsPage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {property.location.latitude && property.location.longitude ? (
+            {property.location.coordinates ? (
               <PropertyMap
-                latitude={property.location.latitude}
-                longitude={property.location.longitude}
+                coordinates={property.location.coordinates}
                 title={property.title}
                 address={property.location.address}
                 city={property.location.city}

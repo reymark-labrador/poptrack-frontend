@@ -29,6 +29,8 @@ const EditPropertyPage = () => {
     type: "sale" as "rent" | "sale",
     city: "",
     address: "",
+    latitude: "",
+    longitude: "",
     bedrooms: "",
     bathrooms: "",
     area: "",
@@ -65,6 +67,10 @@ const EditPropertyPage = () => {
           type: propertyData.type,
           city: propertyData.location.city,
           address: propertyData.location.address || "",
+          latitude:
+            propertyData.location.coordinates?.latitude?.toString() || "",
+          longitude:
+            propertyData.location.coordinates?.longitude?.toString() || "",
           bedrooms: propertyData.bedrooms?.toString() || "",
           bathrooms: propertyData.bathrooms?.toString() || "",
           area: propertyData.area?.toString() || "",
@@ -148,6 +154,13 @@ const EditPropertyPage = () => {
         location: {
           city: formData.city.trim(),
           address: formData.address.trim() || undefined,
+          ...(formData.latitude &&
+            formData.longitude && {
+              coordinates: {
+                latitude: parseFloat(formData.latitude),
+                longitude: parseFloat(formData.longitude),
+              },
+            }),
         },
         bedrooms: parseInt(formData.bedrooms),
         bathrooms: parseInt(formData.bathrooms),
@@ -319,6 +332,34 @@ const EditPropertyPage = () => {
                 value={formData.address}
                 onChange={handleInputChange}
                 placeholder="Enter address (optional)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Latitude
+              </label>
+              <Input
+                name="latitude"
+                type="number"
+                step="any"
+                value={formData.latitude}
+                onChange={handleInputChange}
+                placeholder="Enter latitude (optional)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Longitude
+              </label>
+              <Input
+                name="longitude"
+                type="number"
+                step="any"
+                value={formData.longitude}
+                onChange={handleInputChange}
+                placeholder="Enter longitude (optional)"
               />
             </div>
 

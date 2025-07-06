@@ -9,8 +9,10 @@ export interface IProperty {
   location: {
     city: string
     address?: string
-    latitude?: number
-    longitude?: number
+    coordinates?: {
+      latitude: number
+      longitude: number
+    }
   }
   bedrooms?: number
   bathrooms?: number
