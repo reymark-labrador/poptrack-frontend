@@ -10,7 +10,7 @@ import {
   TableCell,
 } from "@/components/ui/table"
 import { useURLParams } from "@/utils/urlParams"
-import { useInquiries } from "@/hooks/useInquiries"
+import { useInquiries, useScheduleInquiry } from "@/hooks/useInquiries"
 import type { ILead } from "@/types/lead"
 import { DatePicker } from "@/components/ui/date-picker"
 import { formatDate, truncateMessage } from "@/utils/formatters"
@@ -21,7 +21,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
-import { scheduleInquery } from "@/features/dashboard/api"
 
 const InquiriesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -31,12 +30,13 @@ const InquiriesPage = () => {
     inquiryId: string | null
   }>({ open: false, inquiryId: null })
   const [scheduledDate, setScheduledDate] = useState<Date | undefined>()
-  const [isScheduling, setIsScheduling] = useState(false)
 
   const { data, isLoading, error } = useInquiries({
     page: currentPage,
     limit: 10,
   })
+
+  const scheduleInquiryMutation = useScheduleInquiry()
 
   const inquiries = data?.data ?? []
   const pagination = data?.pagination
@@ -237,18 +237,21 @@ const InquiriesPage = () => {
             <Button
               onClick={async () => {
                 if (!scheduleModal.inquiryId || !scheduledDate) return
-                setIsScheduling(true)
                 try {
-                  await scheduleInquery(scheduleModal.inquiryId, scheduledDate!)
+                  await scheduleInquiryMutation.mutateAsync({
+                    leadId: scheduleModal.inquiryId,
+                    scheduledAt: scheduledDate!,
+                  })
                   setScheduleModal({ open: false, inquiryId: null })
                   setScheduledDate(undefined)
-                } finally {
-                  setIsScheduling(false)
+                } catch (error) {
+                  // Error handling is done by the mutation
+                  console.error("Failed to schedule inquiry:", error)
                 }
               }}
-              disabled={!scheduledDate || isScheduling}
+              disabled={!scheduledDate || scheduleInquiryMutation.isPending}
             >
-              {isScheduling ? "Scheduling..." : "Schedule"}
+              {scheduleInquiryMutation.isPending ? "Scheduling..." : "Schedule"}
             </Button>
           </DialogFooter>
         </DialogContent>

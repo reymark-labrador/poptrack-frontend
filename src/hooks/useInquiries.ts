@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import { getInquiries } from "../features/dashboard/api"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { getInquiries, scheduleInquery } from "../features/dashboard/api"
 
 interface UseInquiriesOptions {
   page?: number
@@ -13,6 +13,24 @@ export const useInquiries = (options: UseInquiriesOptions = {}) => {
     queryKey: ["inquiries", page, limit],
     queryFn: () => getInquiries(page, limit),
     staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+
+export const useScheduleInquiry = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({
+      leadId,
+      scheduledAt,
+    }: {
+      leadId: string
+      scheduledAt: Date
+    }) => scheduleInquery(leadId, scheduledAt),
+    onSuccess: () => {
+      // Invalidate and refetch inquiries to update the table
+      queryClient.invalidateQueries({ queryKey: ["inquiries"] })
+    },
   })
 }
 
