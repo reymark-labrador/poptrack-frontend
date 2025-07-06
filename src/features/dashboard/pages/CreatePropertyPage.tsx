@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/Select"
 import { Checkbox } from "@/components/ui/Checkbox"
 import { createProperty } from "../apis/propertyApi"
+import MapPicker from "@/components/MapPicker"
 
 const CreatePropertyPage = () => {
   const navigate = useNavigate()
@@ -24,8 +25,8 @@ const CreatePropertyPage = () => {
     type: "sale" as "rent" | "sale",
     city: "",
     address: "",
-    latitude: "",
-    longitude: "",
+    lat: "40.7128", // Default to New York coordinates
+    lng: "-74.0060",
     bedrooms: "",
     bathrooms: "",
     area: "",
@@ -67,6 +68,14 @@ const CreatePropertyPage = () => {
       amenities: checked
         ? [...prev.amenities, amenity]
         : prev.amenities.filter((a) => a !== amenity),
+    }))
+  }
+
+  const handleCoordinatesChange = (lat: number, lng: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      lat: lat.toString(),
+      lng: lng.toString(),
     }))
   }
 
@@ -116,12 +125,12 @@ const CreatePropertyPage = () => {
         location: {
           city: formData.city.trim(),
           address: formData.address.trim() || undefined,
-          ...(formData.latitude &&
-            formData.longitude && {
-              coordinates: {
-                latitude: parseFloat(formData.latitude),
-                longitude: parseFloat(formData.longitude),
-              },
+          ...(formData.lat &&
+            formData.lng && {
+              coordinates: [
+                parseFloat(formData.lng), // longitude first
+                parseFloat(formData.lat), // latitude second
+              ] as [number, number],
             }),
         },
         bedrooms: parseInt(formData.bedrooms),
@@ -257,10 +266,10 @@ const CreatePropertyPage = () => {
                 Latitude
               </label>
               <Input
-                name="latitude"
+                name="lat"
                 type="number"
                 step="any"
-                value={formData.latitude}
+                value={formData.lat}
                 onChange={handleInputChange}
                 placeholder="Enter latitude (optional)"
               />
@@ -271,15 +280,33 @@ const CreatePropertyPage = () => {
                 Longitude
               </label>
               <Input
-                name="longitude"
+                name="lng"
                 type="number"
                 step="any"
-                value={formData.longitude}
+                value={formData.lng}
                 onChange={handleInputChange}
                 placeholder="Enter longitude (optional)"
               />
             </div>
+          </div>
 
+          {/* Map Picker */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Location on Map
+            </label>
+            <MapPicker
+              lat={parseFloat(formData.lat) || 40.7128}
+              lng={parseFloat(formData.lng) || -74.006}
+              onCoordinatesChange={handleCoordinatesChange}
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              Click on the map to set the property location, or manually enter
+              coordinates above.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Bedrooms *

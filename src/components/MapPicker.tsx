@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
-import { Icon } from "leaflet"
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet"
+import { Icon, LatLng } from "leaflet"
 import "leaflet/dist/leaflet.css"
 
 // Add custom CSS to ensure map doesn't overlap modals
@@ -16,11 +16,10 @@ const mapStyles = `
   }
 `
 
-interface PropertyMapProps {
-  coordinates: [number, number] // [longitude, latitude]
-  title: string
-  address?: string
-  city: string
+interface MapPickerProps {
+  lat: number
+  lng: number
+  onCoordinatesChange: (lat: number, lng: number) => void
   className?: string
 }
 
@@ -34,13 +33,27 @@ const customIcon = new Icon({
   shadowSize: [41, 41],
 })
 
-const PropertyMap = ({
-  coordinates,
-  title,
-  address,
-  city,
+// Component to handle map click events
+const MapClickHandler = ({
+  onCoordinatesChange,
+}: {
+  onCoordinatesChange: (lat: number, lng: number) => void
+}) => {
+  useMapEvents({
+    click: (e: { latlng: LatLng }) => {
+      const { lat, lng } = e.latlng
+      onCoordinatesChange(lat, lng)
+    },
+  })
+  return null
+}
+
+const MapPicker = ({
+  lat,
+  lng,
+  onCoordinatesChange,
   className = "",
-}: PropertyMapProps) => {
+}: MapPickerProps) => {
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
@@ -66,31 +79,29 @@ const PropertyMap = ({
         style={{ height: "400px" }}
       >
         <MapContainer
-          center={[coordinates[1], coordinates[0]]} // [lat, lng] for Leaflet
-          zoom={15}
+          center={[lat, lng]}
+          zoom={13}
           style={{ height: "100%", width: "100%", zIndex: 0 }}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker
-            position={[coordinates[1], coordinates[0]]} // [lat, lng] for Leaflet
-            icon={customIcon}
-          >
-            <Popup>
-              <div className="text-center">
-                <h3 className="font-semibold text-gray-900">{title}</h3>
-                {address && <p className="text-sm text-gray-600">{address}</p>}
-                <p className="text-sm text-gray-600">{city}</p>
-              </div>
-            </Popup>
-          </Marker>
+          <MapClickHandler onCoordinatesChange={onCoordinatesChange} />
+          <Marker position={[lat, lng]} icon={customIcon}></Marker>
         </MapContainer>
+        <div className="absolute top-2 left-2 bg-white bg-opacity-90 px-3 py-2 rounded-md shadow-sm text-sm">
+          <p className="font-medium text-gray-700">
+            Click on map to set location
+          </p>
+          <p className="text-gray-600 text-xs">
+            Lat: {lat.toFixed(6)}, Lng: {lng.toFixed(6)}
+          </p>
+        </div>
       </div>
     </>
   )
 }
 
-export default PropertyMap
+export default MapPicker
