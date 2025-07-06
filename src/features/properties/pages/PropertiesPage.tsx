@@ -8,7 +8,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/Card"
-import { PropertyPagination } from "@/components/PropertyPagination"
+import { TablePagination } from "@/components/TablePagination"
 import { PropertyFilters } from "@/components/PropertyFilters"
 import InquiryButton from "@/components/InquiryButton"
 import { useURLParams } from "@/utils/urlParams"
@@ -119,7 +119,7 @@ const PropertiesPage = () => {
       )}
 
       {totalPages > 1 && (
-        <PropertyPagination
+        <TablePagination
           page={page}
           pageCount={totalPages}
           onPageChange={handlePageChange}

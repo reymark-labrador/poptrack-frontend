@@ -22,10 +22,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { TablePagination } from "@/components/TablePagination"
+import { useInquiryUIStore } from "@/stores/useInquiryUIStore"
 
 const InquiriesPage = () => {
-  const [currentPage, setCurrentPage] = useState(1)
   const { updateURLParams, getURLParam } = useURLParams()
+  const page = useInquiryUIStore((state) => state.page)
+  const setPage = useInquiryUIStore((state) => state.setPage)
   const [scheduleModal, setScheduleModal] = useState<{
     open: boolean
     inquiryId: string | null
@@ -34,7 +37,7 @@ const InquiriesPage = () => {
   const [scheduledTime, setScheduledTime] = useState<string | undefined>()
 
   const { data, isLoading, error } = useInquiries({
-    page: currentPage,
+    page,
     limit: 10,
   })
 
@@ -48,14 +51,14 @@ const InquiriesPage = () => {
     const urlPage = getURLParam("page")
     if (urlPage) {
       const pageNumber = parseInt(urlPage, 10)
-      if (pageNumber !== currentPage && pageNumber > 0) {
-        setCurrentPage(pageNumber)
+      if (pageNumber !== page && pageNumber > 0) {
+        setPage(pageNumber)
       }
     }
-  }, [getURLParam, currentPage])
+  }, [getURLParam, setPage, page])
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage)
+    setPage(newPage)
     updateURLParams({ page: newPage })
   }
 
@@ -195,27 +198,11 @@ const InquiriesPage = () => {
       )}
 
       {totalPages > 1 && (
-        <div className="mt-6 flex justify-center">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <span className="flex items-center px-4 py-2 text-sm text-gray-600">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+        <TablePagination
+          page={page}
+          pageCount={totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
 
       <Dialog

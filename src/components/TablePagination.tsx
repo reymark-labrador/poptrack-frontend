@@ -9,13 +9,13 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/Pagination"
 
-interface PropertyPaginationProps {
+interface TablePaginationProps {
   page: number
   pageCount: number
   onPageChange: (page: number) => void
 }
 
-export const PropertyPagination: React.FC<PropertyPaginationProps> = ({
+export const TablePagination: React.FC<TablePaginationProps> = ({
   page,
   pageCount,
   onPageChange,

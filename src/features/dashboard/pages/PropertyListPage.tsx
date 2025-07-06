@@ -15,9 +15,9 @@ import DeletePropertyModal from "../components/DeletePropertyModal"
 import ArchivePropertyModal from "../components/ArchivePropertyModal"
 import type { IProperty } from "@/types/property"
 import { PropertyFilters } from "../components/PropertyFilters"
-import { PropertyPagination } from "@/components/PropertyPagination"
 import { usePropertyUIStore } from "@/stores/usePropertyUIStore"
 import { useURLParams } from "@/utils/urlParams"
+import { TablePagination } from "@/components/TablePagination"
 
 const PropertyListPage = () => {
   const queryClient = useQueryClient()
@@ -241,7 +241,7 @@ const PropertyListPage = () => {
       )}
 
       {totalPages > 1 && (
-        <PropertyPagination
+        <TablePagination
           page={page}
           pageCount={totalPages}
           onPageChange={handlePageChange}

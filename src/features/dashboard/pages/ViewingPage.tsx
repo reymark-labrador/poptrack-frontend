@@ -12,7 +12,6 @@ import {
   TableCell,
 } from "@/components/ui/table"
 import { useURLParams } from "@/utils/urlParams"
-import { DatePicker } from "@/components/ui/date-picker"
 import {
   Dialog,
   DialogContent,
@@ -33,6 +32,8 @@ import { updateViewingStatus } from "../api"
 import { useViewingUIStore } from "@/stores/useViewingUIStore"
 import type { IViewing } from "@/types/viewing"
 import { formatDate, truncateMessage } from "@/utils/formatters"
+
+import { TablePagination } from "@/components/TablePagination"
 
 const ScheduleViewingPage = () => {
   const queryClient = useQueryClient()
@@ -91,12 +92,6 @@ const ScheduleViewingPage = () => {
       newStatus as "scheduled" | "completed" | "no-show" | "cancelled" | "all"
     )
     updateURLParams({ status: newStatus, page: 1 })
-  }
-
-  const handleDateFilterChange = (newDate: Date | undefined) => {
-    const dateString = newDate ? newDate.toISOString().split("T")[0] : null
-    setDate(dateString || undefined)
-    updateURLParams({ date: dateString, page: 1 })
   }
 
   const getStatusBadge = (status: string) => {
@@ -160,10 +155,10 @@ const ScheduleViewingPage = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <Button variant="outline">Export</Button>
           <Button variant="outline">Add Viewing</Button>
-        </div>
+        </div> */}
       </div>
 
       {/* Filters */}
@@ -183,15 +178,6 @@ const ScheduleViewingPage = () => {
                 <SelectItem value="no-show">No Show</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Date:</span>
-            <DatePicker
-              date={date ? new Date(date) : undefined}
-              onDateChange={handleDateFilterChange}
-              placeholder="Filter by date"
-            />
           </div>
         </div>
       </div>
@@ -302,27 +288,11 @@ const ScheduleViewingPage = () => {
       )}
 
       {totalPages > 1 && (
-        <div className="mt-6 flex justify-center">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-            >
-              Previous
-            </Button>
-            <span className="flex items-center px-4 py-2 text-sm text-gray-600">
-              Page {page} of {totalPages}
-            </span>
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+        <TablePagination
+          page={page}
+          pageCount={totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
 
       {/* Edit Modal */}
