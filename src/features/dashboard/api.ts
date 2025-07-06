@@ -133,10 +133,12 @@ export const getInquiries = async (
 
 export const scheduleInquery = async (
   leadId: string,
-  scheduledAt: Date
+  date: string,
+  time: string
 ): Promise<ILead> => {
   const res = await axios.post<ILead>(`/leads/${leadId}/convert-and-schedule`, {
-    scheduledAt,
+    date,
+    time,
   })
 
   return res.data

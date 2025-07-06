@@ -32,7 +32,7 @@ import { Calendar } from "lucide-react"
 import { updateViewingStatus } from "../api"
 import { useViewingUIStore } from "@/stores/useViewingUIStore"
 import type { IViewing } from "@/types/viewing"
-import { formatDate } from "@/utils/formatters"
+import { formatDate, truncateMessage } from "@/utils/formatters"
 
 const ScheduleViewingPage = () => {
   const queryClient = useQueryClient()
@@ -216,8 +216,9 @@ const ScheduleViewingPage = () => {
               <TableRow>
                 <TableHead>Client</TableHead>
                 <TableHead>Property</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>Schedule</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Note</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -256,6 +257,9 @@ const ScheduleViewingPage = () => {
                       </div>
                     </TableCell>
                     <TableCell>{getStatusBadge(viewing.status)}</TableCell>
+                    <TableCell>
+                      {truncateMessage(viewing?.notes || "")}
+                    </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
                         {/* <Button

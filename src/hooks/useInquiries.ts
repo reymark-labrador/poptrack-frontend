@@ -22,11 +22,13 @@ export const useScheduleInquiry = () => {
   return useMutation({
     mutationFn: ({
       leadId,
-      scheduledAt,
+      date,
+      time,
     }: {
       leadId: string
-      scheduledAt: Date
-    }) => scheduleInquery(leadId, scheduledAt),
+      date: string
+      time: string
+    }) => scheduleInquery(leadId, date, time),
     onSuccess: () => {
       // Invalidate and refetch inquiries to update the table
       queryClient.invalidateQueries({ queryKey: ["inquiries"] })

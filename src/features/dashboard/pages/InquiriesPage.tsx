@@ -13,6 +13,7 @@ import { useURLParams } from "@/utils/urlParams"
 import { useInquiries, useScheduleInquiry } from "@/hooks/useInquiries"
 import type { ILead } from "@/types/lead"
 import { DatePicker } from "@/components/ui/date-picker"
+import { TimePicker } from "@/components/ui/time-picker"
 import { formatDate, truncateMessage } from "@/utils/formatters"
 import {
   Dialog,
@@ -30,6 +31,7 @@ const InquiriesPage = () => {
     inquiryId: string | null
   }>({ open: false, inquiryId: null })
   const [scheduledDate, setScheduledDate] = useState<Date | undefined>()
+  const [scheduledTime, setScheduledTime] = useState<string | undefined>()
 
   const { data, isLoading, error } = useInquiries({
     page: currentPage,
@@ -224,32 +226,61 @@ const InquiriesPage = () => {
           <DialogHeader>
             <DialogTitle>Schedule Inquiry</DialogTitle>
           </DialogHeader>
-          <div className="py-4">
-            <DatePicker date={scheduledDate} onDateChange={setScheduledDate} />
+          <div className="py-4 space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">Date</label>
+              <DatePicker
+                date={scheduledDate}
+                onDateChange={setScheduledDate}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Time</label>
+              <TimePicker
+                time={scheduledTime}
+                onTimeChange={setScheduledTime}
+              />
+            </div>
           </div>
           <DialogFooter>
             <Button
-              onClick={() => setScheduleModal({ open: false, inquiryId: null })}
+              onClick={() => {
+                setScheduleModal({ open: false, inquiryId: null })
+                setScheduledDate(undefined)
+                setScheduledTime(undefined)
+              }}
               variant="outline"
             >
               Cancel
             </Button>
             <Button
               onClick={async () => {
-                if (!scheduleModal.inquiryId || !scheduledDate) return
+                if (
+                  !scheduleModal.inquiryId ||
+                  !scheduledDate ||
+                  !scheduledTime
+                )
+                  return
                 try {
+                  const dateString = scheduledDate.toISOString().split("T")[0] // Format: YYYY-MM-DD
                   await scheduleInquiryMutation.mutateAsync({
                     leadId: scheduleModal.inquiryId,
-                    scheduledAt: scheduledDate!,
+                    date: dateString,
+                    time: scheduledTime,
                   })
                   setScheduleModal({ open: false, inquiryId: null })
                   setScheduledDate(undefined)
+                  setScheduledTime(undefined)
                 } catch (error) {
                   // Error handling is done by the mutation
                   console.error("Failed to schedule inquiry:", error)
                 }
               }}
-              disabled={!scheduledDate || scheduleInquiryMutation.isPending}
+              disabled={
+                !scheduledDate ||
+                !scheduledTime ||
+                scheduleInquiryMutation.isPending
+              }
             >
               {scheduleInquiryMutation.isPending ? "Scheduling..." : "Schedule"}
             </Button>
