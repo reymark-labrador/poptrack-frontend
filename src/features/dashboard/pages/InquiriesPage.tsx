@@ -13,6 +13,7 @@ import { useURLParams } from "@/utils/urlParams"
 import { useInquiries } from "@/hooks/useInquiries"
 import type { ILead } from "@/types/lead"
 import { DatePicker } from "@/components/ui/date-picker"
+import { formatDate, truncateMessage } from "@/utils/formatters"
 import {
   Dialog,
   DialogContent,
@@ -54,22 +55,6 @@ const InquiriesPage = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
     updateURLParams({ page: newPage })
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  }
-
-  const truncateMessage = (message: string, maxLength: number = 50) => {
-    return message.length > maxLength
-      ? `${message.substring(0, maxLength)}...`
-      : message
   }
 
   return (
@@ -171,12 +156,6 @@ const InquiriesPage = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        {/* <Button size="sm" variant="outline">
-                          View Details
-                        </Button> */}
-                        {/* <Button size="sm" variant="outline">
-                          Reply
-                        </Button> */}
                         {inquiry.status === "new" && (
                           <Button
                             size="sm"

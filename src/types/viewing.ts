@@ -8,9 +8,8 @@ export interface IViewing {
   _id: string
   client: Iclient
   property: IProperty
-  date: string // Format: YYYY-MM-DD
-  time: string // Format: HH:mm (24-hour)
   status: ViewingStatus
+  scheduledAt: string
   notes?: string
   createdAt: string
   updatedAt?: string

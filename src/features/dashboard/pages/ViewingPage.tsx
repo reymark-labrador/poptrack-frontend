@@ -28,10 +28,11 @@ import {
   SelectValue,
 } from "@/components/ui/Select"
 
-import { Calendar, MapPin, User, Mail } from "lucide-react"
+import { Calendar } from "lucide-react"
 import { updateViewingStatus } from "../api"
 import { useViewingUIStore } from "@/stores/useViewingUIStore"
 import type { IViewing } from "@/types/viewing"
+import { formatDate } from "@/utils/formatters"
 
 const ScheduleViewingPage = () => {
   const queryClient = useQueryClient()
@@ -43,9 +44,6 @@ const ScheduleViewingPage = () => {
   const date = useViewingUIStore((state) => state.filters.date)
   const setDate = useViewingUIStore((state) => state.setDate)
   const { updateURLParams, getURLParam } = useURLParams()
-
-  const [selectedViewing, setSelectedViewing] = useState<IViewing | null>(null)
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false)
 
   // New state for edit modal
   const [editModal, setEditModal] = useState<{
@@ -101,24 +99,6 @@ const ScheduleViewingPage = () => {
     updateURLParams({ date: dateString, page: 1 })
   }
 
-  const formatDateTime = (dateString: string) => {
-    return new Date(dateString).toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       scheduled: "bg-blue-100 text-blue-800",
@@ -137,11 +117,6 @@ const ScheduleViewingPage = () => {
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     )
-  }
-
-  const handleViewDetails = (viewing: IViewing) => {
-    setSelectedViewing(viewing)
-    setIsDetailModalOpen(true)
   }
 
   const handleEditViewing = (viewing: IViewing) => {
@@ -173,20 +148,6 @@ const ScheduleViewingPage = () => {
     } finally {
       setIsUpdating(false)
     }
-  }
-
-  // Helper function to get scheduled date/time for display
-  const getScheduledDateTime = (viewing: IViewing) => {
-    // Combine date and time from IViewing
-    if (viewing.date && viewing.time) {
-      return `${viewing.date}T${viewing.time}:00.000Z`
-    }
-    return viewing.createdAt
-  }
-
-  // Helper function to get notes
-  const getNotes = (viewing: IViewing) => {
-    return viewing.notes || ""
   }
 
   return (
@@ -255,7 +216,7 @@ const ScheduleViewingPage = () => {
               <TableRow>
                 <TableHead>Client</TableHead>
                 <TableHead>Property</TableHead>
-                <TableHead>Date & Time</TableHead>
+                <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -290,18 +251,8 @@ const ScheduleViewingPage = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <div className="space-y-1">
-                        <div className="font-medium">
-                          {formatDate(getScheduledDateTime(viewing))}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {new Date(
-                            getScheduledDateTime(viewing)
-                          ).toLocaleTimeString("en-US", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </div>
+                      <div className="text-sm text-gray-600">
+                        {formatDate(viewing.scheduledAt)}
                       </div>
                     </TableCell>
                     <TableCell>{getStatusBadge(viewing.status)}</TableCell>
@@ -369,79 +320,6 @@ const ScheduleViewingPage = () => {
           </div>
         </div>
       )}
-
-      {/* Detail Modal */}
-      <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Viewing Details</DialogTitle>
-          </DialogHeader>
-          {selectedViewing && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-semibold mb-2">Property</h3>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <MapPin className="w-4 h-4" />
-                    <span>Property {selectedViewing.property.title}</span>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Scheduled Date</h3>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Calendar className="w-4 h-4" />
-                    <span>
-                      {formatDateTime(getScheduledDateTime(selectedViewing))}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Client Information</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-gray-400" />
-                    <span>Client {selectedViewing.client.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gray-400" />
-                    <span>No email provided</span>
-                  </div>
-                </div>
-              </div>
-
-              {getNotes(selectedViewing) && (
-                <div>
-                  <h3 className="font-semibold mb-2">Notes</h3>
-                  <p className="text-gray-600">{getNotes(selectedViewing)}</p>
-                </div>
-              )}
-
-              <div>
-                <h3 className="font-semibold mb-2">Status</h3>
-                {getStatusBadge(selectedViewing.status)}
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDetailModalOpen(false)}
-            >
-              Close
-            </Button>
-            <Button
-              onClick={() => {
-                setIsDetailModalOpen(false)
-                handleEditViewing(selectedViewing!)
-              }}
-            >
-              Edit Viewing
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Edit Modal */}
       <Dialog
