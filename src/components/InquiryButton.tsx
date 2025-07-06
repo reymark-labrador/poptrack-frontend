@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Mail } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import InquiryModal, { type InquiryFormData } from "@/components/InquiryModal"
 import { createLead } from "@/features/properties/api"
@@ -17,6 +18,7 @@ interface InquiryButtonProps {
   className?: string
   children?: React.ReactNode
   onSubmit?: (data: InquiryFormData) => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 const InquiryButton = ({
@@ -27,6 +29,7 @@ const InquiryButton = ({
   className = "",
   children = "Submit Inquiry",
   onSubmit,
+  onClick,
 }: InquiryButtonProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -54,8 +57,16 @@ const InquiryButton = ({
         variant={variant}
         size={size}
         className={className}
-        onClick={() => setIsModalOpen(true)}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          if (onClick) {
+            onClick(e)
+          }
+          setIsModalOpen(true)
+        }}
       >
+        <Mail className="h-4 w-4" />
         {children}
       </Button>
 

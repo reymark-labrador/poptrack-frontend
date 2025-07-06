@@ -87,7 +87,11 @@ const InquiryModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => !isSubmitting && handleClose()}>
-      <DialogContent className="max-w-md">
+      <DialogContent
+        className="max-w-md"
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
         <DialogHeader>
           <DialogTitle>Submit an Inquiry</DialogTitle>
         </DialogHeader>

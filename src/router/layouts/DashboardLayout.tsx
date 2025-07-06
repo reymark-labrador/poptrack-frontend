@@ -10,7 +10,7 @@ const DashboardLayout = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <aside className="w-64 bg-white border-r p-4 flex flex-col">
-        <div className="mb-8 text-2xl font-bold text-blue-600">PopTrack</div>
+        <div className="mb-8 text-2xl font-bold">PopTrack</div>
         <nav className="flex-1">
           <ul className="space-y-2">
             {navItems.map((item) => (

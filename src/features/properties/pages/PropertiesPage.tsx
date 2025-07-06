@@ -11,13 +11,11 @@ import {
 import { TablePagination } from "@/components/TablePagination"
 import { PropertyFilters } from "@/components/PropertyFilters"
 import InquiryButton from "@/components/InquiryButton"
+import PropertyImageCarousel from "@/components/PropertyImageCarousel"
 import { useURLParams } from "@/utils/urlParams"
 
 import { useFilteredProperties } from "../../../hooks/useFilteredProperties"
 import { usePropertyUIStore } from "../../../stores/usePropertyUIStore"
-
-const IMAGE_PLACEHOLDER =
-  "https://placehold.co/600x400?text=No+Photo&font=roboto"
 
 const PropertiesPage = () => {
   const { data, isLoading, error } = useFilteredProperties()
@@ -64,54 +62,107 @@ const PropertiesPage = () => {
       )}
 
       {!isLoading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {properties?.length ? (
             properties?.map((property, index) => (
-              <Card
+              <Link
                 key={index}
-                className="flex flex-col h-full transition-all duration-200 hover:shadow-lg"
+                to={`/property/${property._id}`}
+                className="block transition-all duration-200 hover:shadow-lg"
               >
-                <Link to={`/property/${property._id}`} className="flex-1">
-                  <img
-                    src={IMAGE_PLACEHOLDER}
-                    alt={property.title}
-                    className="rounded-t-xl w-full h-40 object-cover"
-                    loading="lazy"
-                  />
-                  <CardHeader>
-                    <CardTitle>{property.title}</CardTitle>
-                    <CardDescription>
-                      ${property.price.toLocaleString()}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <p className="text-sm text-gray-600 mb-2">
-                      {property.location.city}
-                    </p>
-                    <p className="text-sm">{property.description}</p>
-                  </CardContent>
-                </Link>
-                <CardFooter className="flex gap-2">
-                  <Link
-                    to={`/property/${property._id}`}
-                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center justify-center"
-                  >
-                    View Details
-                  </Link>
-                  <InquiryButton
-                    propertyTitle={property.title}
-                    propertyId={property._id}
-                    variant="outline"
-                    size="sm"
-                    className="flex-shrink-0"
-                  >
-                    Inquiry
-                  </InquiryButton>
-                </CardFooter>
-              </Card>
+                <Card className="h-full">
+                  <div className="flex flex-col md:flex-row">
+                    {/* Image Section */}
+                    <div className="md:w-1/2">
+                      <PropertyImageCarousel
+                        images={property.images}
+                        title={property.title}
+                        className="w-full h-48 md:h-full"
+                      />
+                    </div>
+
+                    {/* Details Section */}
+                    <div className="md:w-2/3 flex flex-col">
+                      <CardHeader className="pb-3">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <CardTitle className="text-lg">
+                              {property.title}
+                            </CardTitle>
+                            <CardDescription className="text-base font-semibold text-primary">
+                              ${property.price.toLocaleString()}
+                            </CardDescription>
+                          </div>
+                          <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-md capitalize">
+                            {property.type}
+                          </span>
+                        </div>
+                      </CardHeader>
+
+                      <CardContent className="flex-1">
+                        <div className="space-y-3">
+                          {/* Location */}
+                          <p className="text-sm text-gray-600">
+                            📍 {property.location.city}
+                          </p>
+
+                          {/* Description */}
+                          <p className="text-sm text-gray-700 line-clamp-1">
+                            {property.description}
+                          </p>
+
+                          {/* Property Details */}
+                          <div className="flex gap-4 text-sm text-gray-600">
+                            {property.bedrooms && (
+                              <span className="flex items-center gap-1">
+                                <span>🛏️</span>
+                                <span>
+                                  {property.bedrooms} bed
+                                  {property.bedrooms !== 1 ? "s" : ""}
+                                </span>
+                              </span>
+                            )}
+                            {property.bathrooms && (
+                              <span className="flex items-center gap-1">
+                                <span>🚿</span>
+                                <span>
+                                  {property.bathrooms} bath
+                                  {property.bathrooms !== 1 ? "s" : ""}
+                                </span>
+                              </span>
+                            )}
+                            {property.area && (
+                              <span className="flex items-center gap-1">
+                                <span>📐</span>
+                                <span>{property.area} sq ft</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+
+                      <CardFooter className="pt-3">
+                        <InquiryButton
+                          propertyTitle={property.title}
+                          propertyId={property._id}
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                          onClick={(e: React.MouseEvent) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                          }}
+                        >
+                          Inquiry
+                        </InquiryButton>
+                      </CardFooter>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
             ))
           ) : (
-            <div className="col-span-full text-center text-muted-foreground py-12">
+            <div className="text-center text-muted-foreground py-12">
               No properties found.
             </div>
           )}
