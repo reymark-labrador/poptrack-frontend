@@ -89,7 +89,7 @@ _Interface for scheduling and managing property viewings with status tracking_
 
 ### Video Demo
 
-_[Placeholder for video demo - would show user interactions and key features]_
+[Watch the demo on YouTube](https://youtu.be/1FumQFno8d4)
 
 ## 🎯 Assumptions Made
 
