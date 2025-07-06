@@ -215,21 +215,21 @@ _Interface for scheduling and managing property viewings with status tracking_
 
 ## ⏱️ Time Spent
 
-- **Total Development Time**: ~25-30 hours
-- **Planning & Architecture**: 2-3 hours
-- **Core Development**: 18-22 hours
-- **UI/UX Polish**: 3-4 hours
-- **Testing & Bug Fixes**: 2-3 hours
+- **Total Development Time**: ~25 hours
+- **Planning & Architecture**: 2 hours
+- **Core Development**: 16 hours
+- **UI/UX Polish**: 4 hours
+- **Testing & Bug Fixes**: 3 hours
 
 **Breakdown by Feature:**
 
-- Property listing & details: 8 hours
-- Admin dashboard: 10 hours
-- Forms & CRUD operations: 5 hours
-- Filtering & search: 4 hours
-- Maps integration: 3 hours
-- UI components & styling: 5 hours
-- Error handling & polish: 2 hours
+- Property listing & details: 6 hours
+- Admin dashboard: 7 hours
+- Forms & CRUD operations: 4 hours
+- Filtering & search: 3 hours
+- Maps integration: 2 hours
+- UI components & styling: 2 hours
+- Error handling & polish: 1 hour
 
 ## 🛠️ Technologies & Tools Used
 
