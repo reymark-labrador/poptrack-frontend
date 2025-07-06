@@ -8,9 +8,6 @@ interface PropertyImageCarouselProps {
   className?: string
 }
 
-const IMAGE_PLACEHOLDER =
-  "https://placehold.co/600x400?text=No+Photo&font=roboto"
-
 const PropertyImageCarousel = ({
   images,
   title,
@@ -39,13 +36,13 @@ const PropertyImageCarousel = ({
   }
 
   return (
-    <div className={`relative group ${className}`}>
+    <div className={`relative group max-h-80 ${className}`}>
       {/* Main Image */}
-      <div className="relative overflow-hidden rounded-t-xl md:rounded-l-xl md:rounded-t-none">
+      <div className="relative overflow-hidden rounded-t-xl md:rounded-l-xl md:rounded-t-none h-full">
         <img
-          src={IMAGE_PLACEHOLDER}
+          src={displayImages[currentIndex]}
           alt={`${title} - Image ${currentIndex + 1}`}
-          className="w-full h-48 md:h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
         />
 

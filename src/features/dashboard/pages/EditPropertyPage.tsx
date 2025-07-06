@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/Select"
 import { Checkbox } from "@/components/ui/Checkbox"
 import MapPicker from "@/components/MapPicker"
+import ImageUpload from "@/components/ImageUpload"
 
 import type { IProperty } from "@/types/property"
 import { getPropertyById, updateProperty } from "../apis/propertyApi"
@@ -457,6 +458,29 @@ const EditPropertyPage = () => {
             {errors.description && (
               <p className="text-red-500 text-sm mt-1">{errors.description}</p>
             )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Property Images
+            </label>
+            <ImageUpload
+              images={formData.images}
+              onImagesChange={(images) => {
+                console.log(
+                  "ImageUpload onImagesChange called with:",
+                  images.length,
+                  "images"
+                )
+                setFormData((prev) => ({ ...prev, images }))
+              }}
+              maxImages={10}
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              Upload images of your property. You can drag and drop or click to
+              browse. Random placeholder images will be generated for demo
+              purposes. Current images in form: {formData.images.length}
+            </p>
           </div>
 
           <div>
