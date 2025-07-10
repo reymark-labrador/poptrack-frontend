@@ -2,6 +2,8 @@
 
 A modern React-based property management and listing application built with TypeScript, featuring a public property browsing interface and an admin dashboard for property management.
 
+**Backend API**: [poptrack-api](https://github.com/reymark-labrador/poptrack-api)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
