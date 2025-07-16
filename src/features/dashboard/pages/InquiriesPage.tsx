@@ -249,7 +249,13 @@ const InquiriesPage = () => {
                 )
                   return
                 try {
-                  const dateString = scheduledDate.toISOString().split("T")[0] // Format: YYYY-MM-DD
+                  // Format date as YYYY-MM-DD in local time to avoid UTC offset issues
+                  const dateString = [
+                    scheduledDate.getFullYear(),
+                    String(scheduledDate.getMonth() + 1).padStart(2, "0"),
+                    String(scheduledDate.getDate()).padStart(2, "0"),
+                  ].join("-")
+
                   await scheduleInquiryMutation.mutateAsync({
                     leadId: scheduleModal.inquiryId,
                     date: dateString,
